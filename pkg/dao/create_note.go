@@ -30,7 +30,7 @@ func (r *createNoteRepositoryImpl) CreateNote(ctx context.Context, authorID stri
 		TargetName: data.TargetName,
 	}
 
-	_, err := r.db.NewInsert().Model(note).Returning(searchNotesReturning).Exec(ctx)
+	_, err := note.BeforeCreate(r.db.NewInsert().Model(note)).Exec(ctx)
 	if err != nil {
 		var pgErr pgdriver.Error
 		if errors.As(err, &pgErr) && pgErr.IntegrityViolation() {

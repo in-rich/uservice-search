@@ -3,8 +3,10 @@ package dao_test
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"github.com/in-rich/uservice-search/migrations"
 	_ "github.com/in-rich/uservice-search/migrations"
+	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
@@ -60,9 +62,16 @@ func BeginTX[T any](db bun.IDB, fixtures []T) bun.Tx {
 	}
 
 	for _, fixture := range fixtures {
-		_, err := tx.NewInsert().Model(fixture).Exec(context.TODO())
-		if err != nil {
-			panic(err)
+		var query *bun.InsertQuery
+
+		if creator, ok := interface{}(fixture).(entities.WithBeforeCreate); ok {
+			query = creator.BeforeCreate(tx.NewInsert().Model(creator))
+		} else {
+			query = tx.NewInsert().Model(fixture)
+		}
+
+		if _, err := query.Exec(context.TODO()); err != nil {
+			panic(fmt.Errorf("failed to insert fixture: %w\n%s\n", err, query))
 		}
 	}
 

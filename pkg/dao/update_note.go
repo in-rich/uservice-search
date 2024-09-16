@@ -26,12 +26,9 @@ func (r *updateNoteRepositoryImpl) UpdateNote(ctx context.Context, authorID stri
 		TargetName: data.TargetName,
 	}
 
-	res, err := r.db.NewUpdate().
-		Model(note).
-		Column("note_content", "target_name").
+	res, err := note.BeforeUpdate(r.db.NewUpdate().Model(note)).
 		Where("author_id = ?", authorID).
 		Where("note_id = ?", noteID).
-		Returning(searchNotesReturning).
 		Exec(ctx)
 
 	if err != nil {
@@ -42,7 +39,7 @@ func (r *updateNoteRepositoryImpl) UpdateNote(ctx context.Context, authorID stri
 	if err != nil {
 		return nil, err
 	}
-	if rowsAffected != 0 {
+	if rowsAffected == 0 {
 		return nil, ErrNoteNotFound
 	}
 

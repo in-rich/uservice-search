@@ -88,7 +88,7 @@ func TestUpsertNote(t *testing.T) {
 			note: &models.UpsertNote{
 				AuthorID:         "00000000-0000-0000-0000-000000000001",
 				NoteID:           "00000000-0000-0000-0000-000000000001",
-				Content:          "content",
+				Content:          "",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
 			},
