@@ -3,7 +3,7 @@ package services
 import "errors"
 
 var (
-	ErrInvalidNoteSelector     = errors.New("invalid note selector")
-	ErrInvalidNoteUpdate       = errors.New("invalid note update")
-	ErrNotesUpdateLimitReached = errors.New("notes update limit reached")
+	ErrInvalidNoteUpdate = errors.New("invalid note update")
+	ErrInvalidNoteSearch = errors.New("invalid note search")
+	ErrNoteNotFound      = errors.New("not not found")
 )

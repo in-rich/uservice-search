@@ -24,9 +24,6 @@ func (h *UpsertNoteHandler) UpsertNote(ctx context.Context, in *search_pb.Upsert
 		PublicIdentifier: in.GetPublicIdentifier(),
 	})
 	if err != nil {
-		if errors.Is(err, services.ErrNotesUpdateLimitReached) {
-			return nil, status.Error(codes.ResourceExhausted, "note update limit reached")
-		}
 		if errors.Is(err, services.ErrInvalidNoteUpdate) {
 			return nil, status.Errorf(codes.InvalidArgument, "invalid note update: %v", err)
 		}

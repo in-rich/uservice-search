@@ -3,6 +3,7 @@ package entities
 import (
 	"github.com/google/uuid"
 	"github.com/uptrace/bun"
+	"time"
 )
 
 const searchNotesReturning = "author_id, note_id, id"
@@ -17,6 +18,8 @@ type Note struct {
 
 	Content    string `bun:"content"`
 	TargetName string `bun:"target_name"`
+
+	UpdatedAt *time.Time `bun:"updated_at,notnull"`
 }
 
 func (n *Note) BeforeCreate(query *bun.InsertQuery) *bun.InsertQuery {

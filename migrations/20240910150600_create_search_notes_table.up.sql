@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS notes (
 
 --bun:split
 
-CREATE INDEX IF NOT EXISTS note_search ON notes USING GIN ( (content || target_name) );
+CREATE INDEX IF NOT EXISTS note_search ON notes USING GIN ( (notes.content || notes.target_name) );
