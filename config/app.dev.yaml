@@ -1,4 +1,0 @@
-server:
-  port: 1700
-postgres:
-  dsn: postgres://postgres:postgres@localhost:1701/postgres?sslmode=disable
