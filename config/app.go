@@ -2,12 +2,11 @@ package config
 
 import (
 	_ "embed"
-	"github.com/goccy/go-yaml"
-	"os"
+	"github.com/in-rich/lib-go/deploy"
 )
 
-//go:embed app.dev.yaml
-var appDevFile []byte
+//go:embed app.yaml
+var appFile []byte
 
 type AppType struct {
 	Server struct {
@@ -18,17 +17,6 @@ type AppType struct {
 	} `yaml:"postgres"`
 }
 
-var App AppType
-
-func init() {
-	switch os.Getenv("ENV") {
-	case "prod":
-		panic("not implemented")
-	case "staging":
-		panic("not implemented")
-	default:
-		if err := yaml.Unmarshal(appDevFile, &App); err != nil {
-			panic(err)
-		}
-	}
-}
+var App = deploy.LoadConfig[AppType](
+	deploy.GlobalConfig(appFile),
+)
