@@ -5,6 +5,7 @@ package daomocks
 import (
 	context "context"
 
+	dao "github.com/in-rich/uservice-search/pkg/dao"
 	entities "github.com/in-rich/uservice-search/pkg/entities"
 
 	mock "github.com/stretchr/testify/mock"
@@ -23,9 +24,9 @@ func (_m *MockSearchMessagesRepository) EXPECT() *MockSearchMessagesRepository_E
 	return &MockSearchMessagesRepository_Expecter{mock: &_m.Mock}
 }
 
-// SearchMessages provides a mock function with given fields: ctx, teamID, rawQuery, limit, offset
-func (_m *MockSearchMessagesRepository) SearchMessages(ctx context.Context, teamID string, rawQuery string, limit int, offset int) ([]*entities.Message, error) {
-	ret := _m.Called(ctx, teamID, rawQuery, limit, offset)
+// SearchMessages provides a mock function with given fields: ctx, data
+func (_m *MockSearchMessagesRepository) SearchMessages(ctx context.Context, data *dao.SearchMessageData) ([]*entities.Message, error) {
+	ret := _m.Called(ctx, data)
 
 	if len(ret) == 0 {
 		panic("no return value specified for SearchMessages")
@@ -33,19 +34,19 @@ func (_m *MockSearchMessagesRepository) SearchMessages(ctx context.Context, team
 
 	var r0 []*entities.Message
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, int, int) ([]*entities.Message, error)); ok {
-		return rf(ctx, teamID, rawQuery, limit, offset)
+	if rf, ok := ret.Get(0).(func(context.Context, *dao.SearchMessageData) ([]*entities.Message, error)); ok {
+		return rf(ctx, data)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, int, int) []*entities.Message); ok {
-		r0 = rf(ctx, teamID, rawQuery, limit, offset)
+	if rf, ok := ret.Get(0).(func(context.Context, *dao.SearchMessageData) []*entities.Message); ok {
+		r0 = rf(ctx, data)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*entities.Message)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, string, int, int) error); ok {
-		r1 = rf(ctx, teamID, rawQuery, limit, offset)
+	if rf, ok := ret.Get(1).(func(context.Context, *dao.SearchMessageData) error); ok {
+		r1 = rf(ctx, data)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -60,17 +61,14 @@ type MockSearchMessagesRepository_SearchMessages_Call struct {
 
 // SearchMessages is a helper method to define mock.On call
 //   - ctx context.Context
-//   - teamID string
-//   - rawQuery string
-//   - limit int
-//   - offset int
-func (_e *MockSearchMessagesRepository_Expecter) SearchMessages(ctx interface{}, teamID interface{}, rawQuery interface{}, limit interface{}, offset interface{}) *MockSearchMessagesRepository_SearchMessages_Call {
-	return &MockSearchMessagesRepository_SearchMessages_Call{Call: _e.mock.On("SearchMessages", ctx, teamID, rawQuery, limit, offset)}
+//   - data *dao.SearchMessageData
+func (_e *MockSearchMessagesRepository_Expecter) SearchMessages(ctx interface{}, data interface{}) *MockSearchMessagesRepository_SearchMessages_Call {
+	return &MockSearchMessagesRepository_SearchMessages_Call{Call: _e.mock.On("SearchMessages", ctx, data)}
 }
 
-func (_c *MockSearchMessagesRepository_SearchMessages_Call) Run(run func(ctx context.Context, teamID string, rawQuery string, limit int, offset int)) *MockSearchMessagesRepository_SearchMessages_Call {
+func (_c *MockSearchMessagesRepository_SearchMessages_Call) Run(run func(ctx context.Context, data *dao.SearchMessageData)) *MockSearchMessagesRepository_SearchMessages_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(string), args[2].(string), args[3].(int), args[4].(int))
+		run(args[0].(context.Context), args[1].(*dao.SearchMessageData))
 	})
 	return _c
 }
@@ -80,7 +78,7 @@ func (_c *MockSearchMessagesRepository_SearchMessages_Call) Return(_a0 []*entiti
 	return _c
 }
 
-func (_c *MockSearchMessagesRepository_SearchMessages_Call) RunAndReturn(run func(context.Context, string, string, int, int) ([]*entities.Message, error)) *MockSearchMessagesRepository_SearchMessages_Call {
+func (_c *MockSearchMessagesRepository_SearchMessages_Call) RunAndReturn(run func(context.Context, *dao.SearchMessageData) ([]*entities.Message, error)) *MockSearchMessagesRepository_SearchMessages_Call {
 	_c.Call.Return(run)
 	return _c
 }

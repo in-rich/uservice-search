@@ -15,11 +15,13 @@ type deleteMessageRepositoryImpl struct {
 }
 
 func (r *deleteMessageRepositoryImpl) DeleteMessage(ctx context.Context, teamID string, messageID string) error {
-	_, err := r.db.NewDelete().
-		Model(&entities.Message{}).
-		Where("team_id = ?", teamID).
-		Where("message_id = ?", messageID).
-		Exec(ctx)
+
+	deleteQuery := r.db.NewDelete().Model(&entities.Message{}).Where("team_id = ?", teamID)
+
+	if messageID != "" {
+		deleteQuery = deleteQuery.Where("team_id = ?", teamID)
+	}
+	_, err := deleteQuery.Exec(ctx)
 
 	return err
 }

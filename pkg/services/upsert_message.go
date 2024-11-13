@@ -30,8 +30,12 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 		return nil, s.deleteMessageRepository.DeleteMessage(ctx, message.TeamID, message.MessageID)
 	}
 
+	if message.MessageID == "" {
+		return nil, ErrInvalidMessageUpdate
+	}
+
 	// Attempt to create a message.
-	createdNote, err := s.createMessageRepository.CreateMessage(
+	createdMessage, err := s.createMessageRepository.CreateMessage(
 		ctx,
 		message.TeamID,
 		message.MessageID,
@@ -43,10 +47,10 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 	// Note was successfully created.
 	if err == nil {
 		return &models.Message{
-			TeamID:     createdNote.TeamID,
-			MessageID:  createdNote.MessageID,
-			Content:    createdNote.Content,
-			TargetName: createdNote.TargetName,
+			TeamID:     createdMessage.TeamID,
+			MessageID:  createdMessage.MessageID,
+			Content:    createdMessage.Content,
+			TargetName: createdMessage.TargetName,
 		}, nil
 	}
 
@@ -54,7 +58,7 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 		return nil, err
 	}
 
-	updatedNote, err := s.updateMessageRepository.UpdateMessage(
+	updatedMessage, err := s.updateMessageRepository.UpdateMessage(
 		ctx,
 		message.TeamID,
 		message.MessageID,
@@ -68,10 +72,10 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 	}
 
 	return &models.Message{
-		TeamID:     updatedNote.TeamID,
-		MessageID:  updatedNote.MessageID,
-		Content:    updatedNote.Content,
-		TargetName: updatedNote.TargetName,
+		TeamID:     updatedMessage.TeamID,
+		MessageID:  updatedMessage.MessageID,
+		Content:    updatedMessage.Content,
+		TargetName: updatedMessage.TargetName,
 	}, nil
 }
 
