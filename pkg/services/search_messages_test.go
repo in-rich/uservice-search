@@ -2,7 +2,6 @@ package services_test
 
 import (
 	"context"
-	"github.com/in-rich/uservice-search/pkg/dao"
 	daomocks "github.com/in-rich/uservice-search/pkg/dao/mocks"
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/in-rich/uservice-search/pkg/models"
@@ -27,12 +26,10 @@ func TestSearchMessages(t *testing.T) {
 		{
 			name: "Success/Cat",
 			Message: &models.SearchMessages{
-				UserID:           "00000000-0000-0000-0000-000000000001",
-				TeamID:           "",
-				Limit:            1000,
-				Offset:           10,
-				RawQuery:         "cat",
-				OneMessageByTeam: true,
+				TeamID:   "00000000-0000-0000-0000-000000000001",
+				Limit:    1000,
+				Offset:   10,
+				RawQuery: "cat",
 			},
 			searchMessagesResponse: []*entities.Message{
 				{
@@ -51,14 +48,24 @@ func TestSearchMessages(t *testing.T) {
 			shouldCallSearch: true,
 		},
 		{
+			name: "Error/MessageNotFound",
+			Message: &models.SearchMessages{
+				TeamID:   "00000000-0000-0000-0000-000000000001",
+				Limit:    1000,
+				Offset:   0,
+				RawQuery: "cat",
+			},
+			searchMessagesError: FooErr,
+			expectErr:           FooErr,
+			shouldCallSearch:    true,
+		},
+		{
 			name: "Error/Invalid",
 			Message: &models.SearchMessages{
-				UserID:           "00000000-0000-0000-0000-000000000001",
-				TeamID:           "",
-				Limit:            -12,
-				Offset:           0,
-				RawQuery:         "cat",
-				OneMessageByTeam: true,
+				TeamID:   "00000000-0000-0000-0000-000000000001",
+				Limit:    -12,
+				Offset:   0,
+				RawQuery: "cat",
 			},
 			searchMessagesError: services.ErrInvalidMessageSearch,
 			expectErr:           services.ErrInvalidMessageSearch,
@@ -67,12 +74,10 @@ func TestSearchMessages(t *testing.T) {
 		{
 			name: "Error/FooErr",
 			Message: &models.SearchMessages{
-				UserID:           "",
-				TeamID:           "00000000-0000-0000-0000-000000000001",
-				Limit:            1000,
-				Offset:           0,
-				RawQuery:         "cat",
-				OneMessageByTeam: true,
+				TeamID:   "00000000-0000-0000-0000-000000000001",
+				Limit:    1000,
+				Offset:   0,
+				RawQuery: "cat",
 			},
 			searchMessagesError: FooErr,
 			expectErr:           FooErr,
@@ -88,14 +93,10 @@ func TestSearchMessages(t *testing.T) {
 				searchMessages.On(
 					"SearchMessages",
 					context.TODO(),
-					&dao.SearchMessageData{
-						UserID:           tt.Message.UserID,
-						TeamID:           tt.Message.TeamID,
-						RawQuery:         tt.Message.RawQuery,
-						Limit:            tt.Message.Limit,
-						Offset:           tt.Message.Offset,
-						OneMessageByTeam: tt.Message.OneMessageByTeam,
-					},
+					tt.Message.TeamID,
+					tt.Message.RawQuery,
+					tt.Message.Limit,
+					tt.Message.Offset,
 				).Return(tt.searchMessagesResponse, tt.searchMessagesError)
 			}
 

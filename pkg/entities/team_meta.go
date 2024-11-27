@@ -11,5 +11,5 @@ type TeamMeta struct {
 	ID *uuid.UUID `bun:"id,pk,type:uuid"`
 
 	TeamID *uuid.UUID `bun:"team_id"`
-	UserID string     `bun:"user_id"`
+	UserID *uuid.UUID `bun:"user_id"`
 }

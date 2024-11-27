@@ -23,18 +23,8 @@ func (s *searchMessagesServiceImpl) Exec(ctx context.Context, message *models.Se
 	if err := validate.Struct(message); err != nil {
 		return nil, errors.Join(ErrInvalidMessageSearch, err)
 	}
-	if message.UserID != "" && message.TeamID != "" {
-		return nil, ErrInvalidMessageSearch
-	}
 
-	searchMessages, err := s.searchMessageRepository.SearchMessages(ctx, &dao.SearchMessageData{
-		UserID:           message.UserID,
-		TeamID:           message.TeamID,
-		RawQuery:         message.RawQuery,
-		Limit:            message.Limit,
-		Offset:           message.Offset,
-		OneMessageByTeam: message.OneMessageByTeam,
-	})
+	searchMessages, err := s.searchMessageRepository.SearchMessages(ctx, message.TeamID, message.RawQuery, message.Limit, message.Offset)
 	if err != nil {
 		return nil, err
 	}

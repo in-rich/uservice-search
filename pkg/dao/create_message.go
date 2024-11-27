@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"errors"
+
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/driver/pgdriver"

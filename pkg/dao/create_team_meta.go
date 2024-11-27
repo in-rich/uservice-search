@@ -21,13 +21,13 @@ type createTeamMetaRepositoryImpl struct {
 func (r *createTeamMetaRepositoryImpl) CreateTeamMeta(ctx context.Context, teamID string, userID string) (*entities.TeamMeta, error) {
 	teamMeta := &entities.TeamMeta{
 		TeamID: lo.ToPtr(uuid.MustParse(teamID)),
-		UserID: userID,
+		UserID: lo.ToPtr(uuid.MustParse(userID)),
 	}
 
 	if _, err := r.db.NewInsert().Model(teamMeta).Returning("*").Exec(ctx); err != nil {
 		var pgErr pgdriver.Error
 		if errors.As(err, &pgErr) && pgErr.IntegrityViolation() {
-			return nil, ErrTeamMetaAlreadyExists
+			return nil, ErrNoteAlreadyExists
 		}
 
 		return nil, err
