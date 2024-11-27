@@ -102,8 +102,9 @@ func (r *searchMessagesRepositoryImpl) SearchMessages(ctx context.Context, data 
 				TableExpr("messages as unique_messages").
 				ColumnExpr("unique_messages.*").
 				GroupExpr("team_id, id, target_name").
-				Order("team_id DESC", "target_name DESC", "updated_at DESC").
-				DistinctOn("team_id, target_name")
+				Order("team_id DESC", "target_name DESC").
+				DistinctOn("team_id, target_name").
+				Order("updated_at DESC")
 
 			if data.RawQuery != "" {
 				subQuery = subQuery.ColumnExpr("search.messageQuery as messageQuery")
