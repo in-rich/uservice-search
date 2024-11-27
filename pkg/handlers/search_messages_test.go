@@ -28,12 +28,10 @@ func TestSearchMessage(t *testing.T) {
 		{
 			name: "SearchMessages/Success",
 			in: &search_pb.SearchMessagesRequest{
-				UserId:           "00000000-0000-0000-0000-000000000001",
-				TeamId:           "",
-				Search:           "cat",
-				Limit:            100,
-				Offset:           0,
-				OneMessageByTeam: false,
+				TeamId: "00000000-0000-0000-0000-000000000001",
+				Search: "cat",
+				Limit:  100,
+				Offset: 0,
 			},
 			searchResponse: []*models.Message{
 				{
@@ -55,12 +53,10 @@ func TestSearchMessage(t *testing.T) {
 		{
 			name: "SearchMessages/InvalidArgument",
 			in: &search_pb.SearchMessagesRequest{
-				UserId:           "00000000-0000-0000-0000-000000000001",
-				TeamId:           "00000000-0000-0000-0000-000000000001",
-				Search:           "cat",
-				Limit:            -4,
-				Offset:           0,
-				OneMessageByTeam: true,
+				TeamId: "00000000-0000-0000-0000-000000000001",
+				Search: "cat",
+				Limit:  -4,
+				Offset: 0,
 			},
 			searchErr:  services.ErrInvalidMessageSearch,
 			expectCode: codes.InvalidArgument,
@@ -68,25 +64,21 @@ func TestSearchMessage(t *testing.T) {
 		{
 			name: "SearchMessages/MessageNotFound",
 			in: &search_pb.SearchMessagesRequest{
-				UserId:           "00000000-0000-0000-0000-000000000001",
-				TeamId:           "",
-				Search:           "cat",
-				Limit:            100,
-				Offset:           0,
-				OneMessageByTeam: true,
+				TeamId: "00000000-0000-0000-0000-000000000001",
+				Search: "cat",
+				Limit:  -4,
+				Offset: 0,
 			},
-			searchErr:  errors.New("message not found"),
+			searchErr:  errors.New("Message not found"),
 			expectCode: codes.Internal,
 		},
 		{
 			name: "Internal",
 			in: &search_pb.SearchMessagesRequest{
-				UserId:           "",
-				TeamId:           "00000000-0000-0000-0000-000000000001",
-				Search:           "cat",
-				Limit:            100,
-				Offset:           0,
-				OneMessageByTeam: true,
+				TeamId: "00000000-0000-0000-0000-000000000001",
+				Search: "cat",
+				Limit:  100,
+				Offset: 0,
 			},
 			searchErr:  errors.New("internal error"),
 			expectCode: codes.Internal,
@@ -97,12 +89,10 @@ func TestSearchMessage(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			service := servicesmocks.NewMockSearchMessagesService(t)
 			service.On("Exec", context.TODO(), &models.SearchMessages{
-				UserID:           tt.in.GetUserId(),
-				TeamID:           tt.in.GetTeamId(),
-				Limit:            int(tt.in.GetLimit()),
-				Offset:           int(tt.in.GetOffset()),
-				RawQuery:         tt.in.GetSearch(),
-				OneMessageByTeam: tt.in.OneMessageByTeam,
+				TeamID:   tt.in.GetTeamId(),
+				Limit:    int(tt.in.GetLimit()),
+				Offset:   int(tt.in.GetOffset()),
+				RawQuery: tt.in.GetSearch(),
 			}).Return(tt.searchResponse, tt.searchErr)
 
 			handler := handlers.NewSearchMessagesHandler(service)
