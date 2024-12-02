@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	search_pb "github.com/in-rich/proto/proto-go/search"
+	"github.com/in-rich/uservice-search/pkg/dao"
 	"github.com/in-rich/uservice-search/pkg/handlers"
 	"github.com/in-rich/uservice-search/pkg/models"
 	"github.com/in-rich/uservice-search/pkg/services"
@@ -50,6 +51,15 @@ func TestCreateTeamMeta(t *testing.T) {
 			},
 			CreateTeamMetaErr: services.ErrInvalidTeamMetaCreate,
 			expectCode:        codes.InvalidArgument,
+		},
+		{
+			name: "AlreadyExists",
+			in: &search_pb.CreateTeamMetaRequest{
+				TeamId: "00000000-0000-0000-0000-000000000001",
+				UserId: "00000000-0000-0000-0000-000000000001",
+			},
+			CreateTeamMetaErr: dao.ErrTeamMetaAlreadyExists,
+			expectCode:        codes.AlreadyExists,
 		},
 		{
 			name: "InternalError",
