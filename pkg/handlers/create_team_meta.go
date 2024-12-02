@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	search_pb "github.com/in-rich/proto/proto-go/search"
+	"github.com/in-rich/uservice-search/pkg/dao"
 	"github.com/in-rich/uservice-search/pkg/models"
 	"github.com/in-rich/uservice-search/pkg/services"
 	"google.golang.org/grpc/codes"
@@ -24,6 +25,9 @@ func (h *CreateTeamMetaHandler) CreateTeamMeta(ctx context.Context, in *search_p
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidTeamMetaCreate) {
 			return nil, status.Errorf(codes.InvalidArgument, "invalid team meta update: %v", err)
+		}
+		if errors.Is(err, dao.ErrTeamMetaAlreadyExists) {
+			return nil, status.Errorf(codes.AlreadyExists, "team meta already exists: %v", err)
 		}
 
 		return nil, status.Errorf(codes.Internal, "failed to create team meta: %v", err)
