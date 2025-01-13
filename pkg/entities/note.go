@@ -31,7 +31,7 @@ func (n *Note) BeforeCreate(query *bun.InsertQuery) *bun.InsertQuery {
 
 func (n *Note) BeforeUpdate(query *bun.UpdateQuery) *bun.UpdateQuery {
 	return query.
-		Column("content", "target_name").
+		Column("content", "target_name", "updated_at").
 		Value("content", Vectorize("A"), n.Content).
 		Value("target_name", Vectorize("A"), n.TargetName).
 		Returning(searchNotesReturning)

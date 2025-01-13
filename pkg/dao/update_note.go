@@ -2,6 +2,8 @@ package dao
 
 import (
 	"context"
+	"github.com/samber/lo"
+	"time"
 
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
@@ -24,6 +26,7 @@ func (r *updateNoteRepositoryImpl) UpdateNote(ctx context.Context, authorID stri
 	note := &entities.Note{
 		Content:    data.NoteContent,
 		TargetName: data.TargetName,
+		UpdatedAt:  lo.ToPtr(time.Now()),
 	}
 
 	res, err := note.BeforeUpdate(r.db.NewUpdate().Model(note)).
