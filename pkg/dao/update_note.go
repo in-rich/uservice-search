@@ -2,9 +2,11 @@ package dao
 
 import (
 	"context"
+
 	"time"
 
 	"github.com/in-rich/uservice-search/pkg/entities"
+	"github.com/samber/lo"
 	"github.com/uptrace/bun"
 )
 
