@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"time"
 
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
@@ -10,6 +11,7 @@ import (
 type UpdateMessageData struct {
 	MessageContent string
 	TargetName     string
+	UpdatedAt      time.Time
 }
 
 type UpdateMessageRepository interface {
@@ -24,6 +26,7 @@ func (r *updateMessageRepositoryImpl) UpdateMessage(ctx context.Context, teamID 
 	message := &entities.Message{
 		Content:    data.MessageContent,
 		TargetName: data.TargetName,
+		UpdatedAt:  &data.UpdatedAt,
 	}
 
 	res, err := message.BeforeUpdate(r.db.NewUpdate().Model(message)).

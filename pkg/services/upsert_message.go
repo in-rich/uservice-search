@@ -6,6 +6,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/in-rich/uservice-search/pkg/dao"
 	"github.com/in-rich/uservice-search/pkg/models"
+	"github.com/samber/lo"
+	"time"
 )
 
 type UpsertMessageService interface {
@@ -34,6 +36,8 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 		return nil, ErrInvalidMessageUpdate
 	}
 
+	updatedAt, _ := lo.Coalesce(lo.FromPtr(message.UpdatedAt), time.Now())
+
 	// Attempt to create a message.
 	createdMessage, err := s.createMessageRepository.CreateMessage(
 		ctx,
@@ -42,6 +46,7 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 		&dao.CreateMessageData{
 			MessageContent: message.Content,
 			TargetName:     targetName,
+			UpdatedAt:      updatedAt,
 		})
 
 	// Note was successfully created.
@@ -65,6 +70,7 @@ func (s *upsertMessageServiceImpl) Exec(ctx context.Context, message *models.Ups
 		&dao.UpdateMessageData{
 			MessageContent: message.Content,
 			TargetName:     targetName,
+			UpdatedAt:      updatedAt,
 		})
 
 	if err != nil {

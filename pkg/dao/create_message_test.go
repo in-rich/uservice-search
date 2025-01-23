@@ -4,8 +4,10 @@ import (
 	"context"
 	"github.com/in-rich/uservice-search/pkg/dao"
 	"github.com/in-rich/uservice-search/pkg/entities"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 var createMessageFixtures = []*entities.Message{
@@ -38,12 +40,14 @@ func TestCreateMessage(t *testing.T) {
 			data: &dao.CreateMessageData{
 				MessageContent: "Lorem Ipsum",
 				TargetName:     "foo",
+				UpdatedAt:      time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expect: &entities.Message{
 				TeamID:     "00000000-0000-0000-0000-000000000001",
 				MessageID:  "00000000-0000-0000-0000-000000000001",
 				Content:    "Lorem Ipsum",
 				TargetName: "foo",
+				UpdatedAt:  lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 		},
 		{
@@ -53,6 +57,7 @@ func TestCreateMessage(t *testing.T) {
 			data: &dao.CreateMessageData{
 				MessageContent: "Lorem Ipsum",
 				TargetName:     "foo",
+				UpdatedAt:      time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expectErr: dao.ErrMessageAlreadyExists,
 		},
@@ -63,12 +68,14 @@ func TestCreateMessage(t *testing.T) {
 			data: &dao.CreateMessageData{
 				MessageContent: "Lorem Ipsum",
 				TargetName:     "foo",
+				UpdatedAt:      time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expect: &entities.Message{
 				TeamID:     "00000000-0000-0000-0000-000000000002",
 				MessageID:  "00000000-0000-0000-0000-000000000001",
 				Content:    "Lorem Ipsum",
 				TargetName: "foo",
+				UpdatedAt:  lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 		},
 	}

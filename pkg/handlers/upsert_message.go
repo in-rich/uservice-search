@@ -6,8 +6,10 @@ import (
 	search_pb "github.com/in-rich/proto/proto-go/search"
 	"github.com/in-rich/uservice-search/pkg/models"
 	"github.com/in-rich/uservice-search/pkg/services"
+	"github.com/samber/lo"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"time"
 )
 
 type UpsertMessageHandler struct {
@@ -22,6 +24,15 @@ func (h *UpsertMessageHandler) UpsertMessage(ctx context.Context, in *search_pb.
 		Content:          in.GetContent(),
 		TargetName:       in.GetTargetName(),
 		PublicIdentifier: in.GetPublicIdentifier(),
+		UpdatedAt: lo.TernaryF[*time.Time](
+			in.GetUpdatedAt() == nil,
+			func() *time.Time {
+				return nil
+			},
+			func() *time.Time {
+				return lo.ToPtr(in.GetUpdatedAt().AsTime())
+			},
+		),
 	})
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidMessageUpdate) {

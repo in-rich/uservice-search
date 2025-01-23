@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"time"
 
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
@@ -10,6 +11,7 @@ import (
 type UpdateNoteData struct {
 	NoteContent string
 	TargetName  string
+	UpdatedAt   time.Time
 }
 
 type UpdateNoteRepository interface {
@@ -24,6 +26,7 @@ func (r *updateNoteRepositoryImpl) UpdateNote(ctx context.Context, authorID stri
 	note := &entities.Note{
 		Content:    data.NoteContent,
 		TargetName: data.TargetName,
+		UpdatedAt:  &data.UpdatedAt,
 	}
 
 	res, err := note.BeforeUpdate(r.db.NewUpdate().Model(note)).

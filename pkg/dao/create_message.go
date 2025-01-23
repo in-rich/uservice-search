@@ -6,11 +6,13 @@ import (
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/driver/pgdriver"
+	"time"
 )
 
 type CreateMessageData struct {
 	MessageContent string
 	TargetName     string
+	UpdatedAt      time.Time
 }
 
 type CreateMessageRepository interface {
@@ -27,6 +29,7 @@ func (r *createMessageRepositoryImpl) CreateMessage(ctx context.Context, teamID 
 		MessageID:  messageID,
 		Content:    data.MessageContent,
 		TargetName: data.TargetName,
+		UpdatedAt:  &data.UpdatedAt,
 	}
 
 	_, err := message.BeforeCreate(r.db.NewInsert().Model(message)).Exec(ctx)

@@ -6,6 +6,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/in-rich/uservice-search/pkg/dao"
 	"github.com/in-rich/uservice-search/pkg/models"
+	"github.com/samber/lo"
+	"time"
 )
 
 type UpsertNoteService interface {
@@ -30,6 +32,8 @@ func (s *upsertNoteServiceImpl) Exec(ctx context.Context, note *models.UpsertNot
 		return nil, s.deleteNoteRepository.DeleteNote(ctx, note.AuthorID, note.NoteID)
 	}
 
+	updatedAt, _ := lo.Coalesce(lo.FromPtr(note.UpdatedAt), time.Now())
+
 	// Attempt to create a message.
 	createdNote, err := s.createNoteRepository.CreateNote(
 		ctx,
@@ -38,6 +42,7 @@ func (s *upsertNoteServiceImpl) Exec(ctx context.Context, note *models.UpsertNot
 		&dao.CreateNoteData{
 			NoteContent: note.Content,
 			TargetName:  targetName,
+			UpdatedAt:   updatedAt,
 		})
 
 	// Note was successfully created.
@@ -61,6 +66,7 @@ func (s *upsertNoteServiceImpl) Exec(ctx context.Context, note *models.UpsertNot
 		&dao.UpdateNoteData{
 			NoteContent: note.Content,
 			TargetName:  targetName,
+			UpdatedAt:   updatedAt,
 		})
 
 	if err != nil {

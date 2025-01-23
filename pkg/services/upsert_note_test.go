@@ -7,8 +7,10 @@ import (
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/in-rich/uservice-search/pkg/models"
 	"github.com/in-rich/uservice-search/pkg/services"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestUpsertNote(t *testing.T) {
@@ -43,6 +45,7 @@ func TestUpsertNote(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateNote: true,
 			createNoteError:      dao.ErrNoteAlreadyExists,
@@ -68,6 +71,7 @@ func TestUpsertNote(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateNote: true,
 			createNoteResponse: &entities.Note{
@@ -91,6 +95,7 @@ func TestUpsertNote(t *testing.T) {
 				Content:          "",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallDeleteNote: true,
 		},
@@ -102,6 +107,7 @@ func TestUpsertNote(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateNote: true,
 			createNoteError:      dao.ErrNoteAlreadyExists,
@@ -117,6 +123,7 @@ func TestUpsertNote(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateNote: true,
 			createNoteError:      FooErr,
@@ -130,6 +137,7 @@ func TestUpsertNote(t *testing.T) {
 				Content:          "",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallDeleteNote: true,
 			deleteNoteError:      FooErr,
@@ -159,6 +167,7 @@ func TestUpsertNote(t *testing.T) {
 						&dao.CreateNoteData{
 							NoteContent: tt.note.Content,
 							TargetName:  tt.note.TargetName + " " + tt.note.PublicIdentifier,
+							UpdatedAt:   lo.FromPtr(tt.note.UpdatedAt),
 						},
 					).
 					Return(tt.createNoteResponse, tt.createNoteError)
@@ -174,6 +183,7 @@ func TestUpsertNote(t *testing.T) {
 						&dao.UpdateNoteData{
 							NoteContent: tt.note.Content,
 							TargetName:  tt.note.TargetName + " " + tt.note.PublicIdentifier,
+							UpdatedAt:   lo.FromPtr(tt.note.UpdatedAt),
 						},
 					).
 					Return(tt.updateNoteResponse, tt.updateNoteError)

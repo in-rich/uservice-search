@@ -7,8 +7,10 @@ import (
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/in-rich/uservice-search/pkg/models"
 	"github.com/in-rich/uservice-search/pkg/services"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestUpsertMessage(t *testing.T) {
@@ -39,6 +41,7 @@ func TestUpsertMessage(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateMessage: true,
 			createMessageError:      dao.ErrMessageAlreadyExists,
@@ -64,6 +67,7 @@ func TestUpsertMessage(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateMessage: true,
 			createMessageResponse: &entities.Message{
@@ -87,6 +91,7 @@ func TestUpsertMessage(t *testing.T) {
 				Content:          "",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallDeleteMessage: true,
 		},
@@ -98,6 +103,7 @@ func TestUpsertMessage(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateMessage: true,
 			createMessageError:      dao.ErrMessageAlreadyExists,
@@ -113,6 +119,7 @@ func TestUpsertMessage(t *testing.T) {
 				Content:          "content",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallCreateMessage: true,
 			createMessageError:      FooErr,
@@ -126,6 +133,7 @@ func TestUpsertMessage(t *testing.T) {
 				Content:          "",
 				TargetName:       "foo",
 				PublicIdentifier: "bar",
+				UpdatedAt:        lo.ToPtr(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			shouldCallDeleteMessage: true,
 			deleteMessageError:      FooErr,
@@ -155,6 +163,7 @@ func TestUpsertMessage(t *testing.T) {
 						&dao.CreateMessageData{
 							MessageContent: tt.message.Content,
 							TargetName:     tt.message.TargetName + " " + tt.message.PublicIdentifier,
+							UpdatedAt:      lo.FromPtr(tt.message.UpdatedAt),
 						},
 					).
 					Return(tt.createMessageResponse, tt.createMessageError)
@@ -170,6 +179,7 @@ func TestUpsertMessage(t *testing.T) {
 						&dao.UpdateMessageData{
 							MessageContent: tt.message.Content,
 							TargetName:     tt.message.TargetName + " " + tt.message.PublicIdentifier,
+							UpdatedAt:      lo.FromPtr(tt.message.UpdatedAt),
 						},
 					).
 					Return(tt.updateMessageResponse, tt.updateMessageError)

@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"errors"
+	"time"
 
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/uptrace/bun"
@@ -12,6 +13,7 @@ import (
 type CreateNoteData struct {
 	NoteContent string
 	TargetName  string
+	UpdatedAt   time.Time
 }
 
 type CreateNoteRepository interface {
@@ -28,6 +30,7 @@ func (r *createNoteRepositoryImpl) CreateNote(ctx context.Context, authorID stri
 		NoteID:     noteID,
 		Content:    data.NoteContent,
 		TargetName: data.TargetName,
+		UpdatedAt:  &data.UpdatedAt,
 	}
 
 	_, err := note.BeforeCreate(r.db.NewInsert().Model(note)).Exec(ctx)
