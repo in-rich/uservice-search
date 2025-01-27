@@ -10,4 +10,6 @@ var (
 	ErrInvalidMessageSearch  = errors.New("invalid message search")
 	ErrInvalidTeamMetaCreate = errors.New("invalid team meta creation")
 	ErrInvalidTeamMetaDelete = errors.New("invalid team meta deletion")
+	ErrInvalidReminderUpdate = errors.New("invalid reminder update")
+	ErrInvalidReminderSearch = errors.New("invalid reminder search")
 )

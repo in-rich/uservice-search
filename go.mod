@@ -1,12 +1,14 @@
 module github.com/in-rich/uservice-search
 
-go 1.23.1
+go 1.23.3
+
+toolchain go1.23.5
 
 require (
 	github.com/go-playground/validator/v10 v10.23.0
 	github.com/google/uuid v1.6.0
 	github.com/in-rich/lib-go v0.0.0-20241003140426-5ded26bae866
-	github.com/in-rich/proto/proto-go v0.0.0-20241115163643-39ffb18a8566
+	github.com/in-rich/proto/proto-go v0.0.0-20250127104428-f74fe0a21c95
 	github.com/rs/zerolog v1.33.0
 	github.com/samber/lo v1.47.0
 	github.com/stretchr/testify v1.9.0

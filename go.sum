@@ -98,8 +98,8 @@ github.com/googleapis/gax-go/v2 v2.14.0 h1:f+jMrjBPl+DL9nI4IQzLUxMq7XrAqFYB7hBPq
 github.com/googleapis/gax-go/v2 v2.14.0/go.mod h1:lhBCnjdLrWRaPvLWhmc8IS24m9mr07qSYnHncrgo+zk=
 github.com/in-rich/lib-go v0.0.0-20241003140426-5ded26bae866 h1:wyZNz0gRTxoRdyY+zRiNKnit9xwCao8YlbyftmkzvKk=
 github.com/in-rich/lib-go v0.0.0-20241003140426-5ded26bae866/go.mod h1:EzjenDwdDDUSM+3XL4hCBJ4SeoFnFZTP4mEVKho2FC8=
-github.com/in-rich/proto/proto-go v0.0.0-20241115163643-39ffb18a8566 h1:ZmOlpoNROIT6tHfD7GkAxMtm6Hm7/lTM1u0+oyDnG4c=
-github.com/in-rich/proto/proto-go v0.0.0-20241115163643-39ffb18a8566/go.mod h1:1k1Qb5NYSlAtRGuwv01hH/BX6nkaUuSoniSHaTy0AYg=
+github.com/in-rich/proto/proto-go v0.0.0-20250127104428-f74fe0a21c95 h1:aJ2VMbx9++InxYl/yQitteiymANv6C9GuVq3+REhn48=
+github.com/in-rich/proto/proto-go v0.0.0-20250127104428-f74fe0a21c95/go.mod h1:5FA5hzz5IkW2pRGCn25vqlXnTAMpC2/yRYyISbjyl0o=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/josharian/intern v1.0.0/go.mod h1:5DoeVV0s6jJacbCEi61lwdGj/aVlrQvzHFFd8Hwg//Y=
