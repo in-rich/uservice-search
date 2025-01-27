@@ -50,6 +50,8 @@ func main() {
 			"UpsertMessages":       {"Postgres"},
 			"CreateTeamMeta":       {"Postgres"},
 			"DeleteTeamMetaMember": {"Postgres"},
+			"SearchReminders":      {"Postgres"},
+			"UpsertReminders":      {"Postgres"},
 		},
 	}
 
@@ -64,6 +66,10 @@ func main() {
 	createTeamMetaDAO := dao.NewCreateTeamMetaRepository(db)
 	deleteTeamMetaDAO := dao.NewDeleteTeamMetaRepository(db)
 	deleteTeamMetaMember := dao.NewDeleteTeamMetaMemberRepository(db)
+	createReminderDAO := dao.NewCreateReminderRepository(db)
+	deleteReminderDAO := dao.NewDeleteReminderRepository(db)
+	searchRemindersDAO := dao.NewSearchRemindersRepository(db)
+	updateReminderDAO := dao.NewUpdateReminderRepository(db)
 
 	searchNotesService := services.NewSearchNotesService(searchNotesDAO)
 	upsertNoteService := services.NewUpsertNoteService(updateNoteDAO, createNoteDAO, deleteNoteDAO)
@@ -71,6 +77,8 @@ func main() {
 	upsertMessageService := services.NewUpsertMessageService(updateMessageDAO, createMessageDAO, deleteMessageDAO)
 	createTeamMetaService := services.NewCreateTeamMetaService(createTeamMetaDAO)
 	deleteTeamMetaService := services.NewDeleteTeamMetaService(deleteTeamMetaDAO, deleteTeamMetaMember)
+	searchRemindersService := services.NewSearchRemindersService(searchRemindersDAO)
+	upsertReminderService := services.NewUpsertReminderService(updateReminderDAO, createReminderDAO, deleteReminderDAO)
 
 	searchNotesHandler := handlers.NewSearchNotesHandler(searchNotesService)
 	upsertNoteHandler := handlers.NewUpsertNoteHandler(upsertNoteService)
@@ -78,6 +86,8 @@ func main() {
 	upsertMessageHandler := handlers.NewUpsertMessageHandler(upsertMessageService)
 	createTeamMetaHandler := handlers.NewCreateTeamMetaHandler(createTeamMetaService)
 	deleteTeamMetaHandler := handlers.NewDeleteTeamMetaHandler(deleteTeamMetaService)
+	searchRemindersHandler := handlers.NewSearchRemindersHandler(searchRemindersService)
+	upsertReminderHandler := handlers.NewUpsertReminderHandler(upsertReminderService)
 
 	logger.Info(fmt.Sprintf("Starting to listen on port %v", config.App.Server.Port))
 	listener, server, health := deploy.StartGRPCServer(logger, config.App.Server.Port, depCheck)
@@ -90,6 +100,8 @@ func main() {
 	search_pb.RegisterUpsertMessageServer(server, upsertMessageHandler)
 	search_pb.RegisterCreateTeamMetaServer(server, createTeamMetaHandler)
 	search_pb.RegisterDeleteTeamMetaServer(server, deleteTeamMetaHandler)
+	search_pb.RegisterSearchRemindersServer(server, searchRemindersHandler)
+	search_pb.RegisterUpsertReminderServer(server, upsertReminderHandler)
 
 	logger.Info("Server started")
 	if err := server.Serve(listener); err != nil {
