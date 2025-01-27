@@ -9,4 +9,6 @@ var (
 	ErrMessageNotFound       = errors.New("message not found")
 	ErrTeamMetaAlreadyExists = errors.New("team meta already exists")
 	ErrTeamMetaNotFound      = errors.New("team meta not found")
+	ErrReminderAlreadyExists = errors.New("reminder already exists")
+	ErrReminderNotFound      = errors.New("reminder not found")
 )
