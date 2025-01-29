@@ -8,11 +8,9 @@ import (
 	"github.com/in-rich/uservice-search/pkg/models"
 	"github.com/in-rich/uservice-search/pkg/services"
 	servicesmocks "github.com/in-rich/uservice-search/pkg/services/mocks"
-	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
 	"testing"
-	"time"
 )
 
 func TestSearchReminder(t *testing.T) {
@@ -41,7 +39,6 @@ func TestSearchReminder(t *testing.T) {
 					ReminderID: "00000000-0000-0000-0000-000000000001",
 					Content:    "big cat",
 					TargetName: "foo bar",
-					ExpiredAt:  lo.ToPtr(time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC)),
 				},
 			},
 			expect: &search_pb.SearchRemindersResponse{
@@ -51,6 +48,44 @@ func TestSearchReminder(t *testing.T) {
 						ReminderId: "00000000-0000-0000-0000-000000000001",
 					},
 				},
+			},
+		},
+		{
+			name: "SearchReminders/SuccessEmpty",
+			in: &search_pb.SearchRemindersRequest{
+				AuthorId: "00000000-0000-0000-0000-000000000001",
+				Search:   "",
+				Limit:    100,
+				Offset:   0,
+			},
+			searchResponse: []*models.Reminder{
+				{
+					AuthorID:   "00000000-0000-0000-0000-000000000001",
+					ReminderID: "00000000-0000-0000-0000-000000000001",
+					Content:    "big cat",
+					TargetName: "foo bar",
+				},
+			},
+			expect: &search_pb.SearchRemindersResponse{
+				Reminders: []*search_pb.Reminder{
+					{
+						AuthorId:   "00000000-0000-0000-0000-000000000001",
+						ReminderId: "00000000-0000-0000-0000-000000000001",
+					},
+				},
+			},
+		},
+		{
+			name: "SearchReminders/SuccessNoReminder",
+			in: &search_pb.SearchRemindersRequest{
+				AuthorId: "00000000-0000-0000-0000-000000000001",
+				Search:   "",
+				Limit:    100,
+				Offset:   0,
+			},
+			searchResponse: []*models.Reminder{},
+			expect: &search_pb.SearchRemindersResponse{
+				Reminders: []*search_pb.Reminder{},
 			},
 		},
 		{

@@ -35,7 +35,6 @@ func (s *searchRemindersServiceImpl) Exec(ctx context.Context, reminder *models.
 			ReminderID: reminder.ReminderID,
 		}
 	})
-
 	return modelsReminders, nil
 }
 

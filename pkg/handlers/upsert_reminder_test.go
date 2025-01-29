@@ -43,7 +43,6 @@ func TestUpsertReminder(t *testing.T) {
 				ReminderID: "00000000-0000-0000-0000-000000000001",
 				Content:    "content",
 				TargetName: "foo bar",
-				ExpiredAt:  lo.ToPtr(time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC)),
 			},
 			expect: &search_pb.UpsertReminderResponse{
 				Reminder: &search_pb.Reminder{

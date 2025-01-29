@@ -62,7 +62,6 @@ func TestUpsertReminder(t *testing.T) {
 				ReminderID: "00000000-0000-0000-0000-000000000001",
 				TargetName: "foo bar",
 				Content:    "content",
-				ExpiredAt:  lo.ToPtr(time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC)),
 			},
 		},
 		{
@@ -88,7 +87,6 @@ func TestUpsertReminder(t *testing.T) {
 				ReminderID: "00000000-0000-0000-0000-000000000002",
 				TargetName: "foo bar",
 				Content:    "content",
-				ExpiredAt:  lo.ToPtr(time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC)),
 			},
 		},
 		{
