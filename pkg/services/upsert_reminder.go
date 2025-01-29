@@ -48,7 +48,6 @@ func (s *upsertReminderServiceImpl) Exec(ctx context.Context, reminder *models.U
 			ReminderID: createdReminder.ReminderID,
 			Content:    createdReminder.Content,
 			TargetName: createdReminder.TargetName,
-			ExpiredAt:  createdReminder.ExpiredAt,
 		}, nil
 	}
 
@@ -75,7 +74,6 @@ func (s *upsertReminderServiceImpl) Exec(ctx context.Context, reminder *models.U
 		ReminderID: updatedReminder.ReminderID,
 		Content:    updatedReminder.Content,
 		TargetName: updatedReminder.TargetName,
-		ExpiredAt:  updatedReminder.ExpiredAt,
 	}, nil
 }
 

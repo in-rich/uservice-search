@@ -23,7 +23,6 @@ func (h *SearchReminderHandler) SearchReminders(ctx context.Context, in *search_
 		Offset:   int(in.Offset),
 		RawQuery: in.Search,
 	})
-
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidReminderSearch) {
 			return nil, status.Errorf(codes.InvalidArgument, "invalid reminder search: %v", err)
@@ -38,7 +37,6 @@ func (h *SearchReminderHandler) SearchReminders(ctx context.Context, in *search_
 			AuthorId:   reminder.AuthorID,
 		}
 	})
-
 	return &search_pb.SearchRemindersResponse{
 		Reminders: reminders,
 	}, nil
