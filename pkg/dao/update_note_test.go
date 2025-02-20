@@ -77,7 +77,6 @@ func TestUpdateNote(t *testing.T) {
 			if note != nil {
 				// Since ID is random, nullify if for comparison.
 				note.ID = nil
-				note.UpdatedAt = nil
 			}
 
 			require.ErrorIs(t, err, tt.expectErr)
