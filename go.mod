@@ -5,8 +5,8 @@ go 1.24.0
 require (
 	github.com/go-playground/validator/v10 v10.25.0
 	github.com/google/uuid v1.6.0
-	github.com/in-rich/lib-go v0.0.0-20241003140426-5ded26bae866
-	github.com/in-rich/proto/proto-go v0.0.0-20250127104428-f74fe0a21c95
+	github.com/in-rich/lib-go v0.0.0-20250223203222-bdce9132054e
+	github.com/in-rich/proto/proto-go v0.0.0-20250223203006-b5e4ba171356
 	github.com/rs/zerolog v1.33.0
 	github.com/samber/lo v1.49.1
 	github.com/stretchr/testify v1.10.0
@@ -18,7 +18,7 @@ require (
 )
 
 require (
-	cloud.google.com/go/auth v0.14.1 // indirect
+	cloud.google.com/go/auth v0.15.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	github.com/bytedance/sonic v1.12.9 // indirect
@@ -64,7 +64,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.34.0 // indirect
 	go.opentelemetry.io/otel/trace v1.34.0 // indirect
 	golang.org/x/arch v0.14.0 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
+	golang.org/x/crypto v0.34.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/oauth2 v0.26.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
