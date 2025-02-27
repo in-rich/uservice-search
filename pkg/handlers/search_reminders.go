@@ -16,7 +16,7 @@ type SearchReminderHandler struct {
 	service services.SearchRemindersService
 }
 
-func (h *SearchReminderHandler) SearchReminders(ctx context.Context, in *search_pb.SearchRemindersRequest) (*search_pb.SearchRemindersResponse, error) {
+func (h *SearchReminderHandler) SearchReminder(ctx context.Context, in *search_pb.SearchRemindersRequest) (*search_pb.SearchRemindersResponse, error) {
 	remindersModels, err := h.service.Exec(ctx, &models.SearchReminders{
 		AuthorID: in.AuthorId,
 		Limit:    int(in.Limit),

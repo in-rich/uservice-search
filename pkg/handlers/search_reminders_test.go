@@ -135,7 +135,7 @@ func TestSearchReminder(t *testing.T) {
 
 			handler := handlers.NewSearchRemindersHandler(service)
 
-			resp, err := handler.SearchReminders(context.TODO(), tt.in)
+			resp, err := handler.SearchReminder(context.TODO(), tt.in)
 
 			require.Equal(t, tt.expect, resp)
 			RequireGRPCCodesEqual(t, err, tt.expectCode)
