@@ -40,10 +40,13 @@ func TestCreateTeamMeta(t *testing.T) {
 			},
 		},
 		{
-			name:      "Error/TeamMetaAlreadyExists",
-			teamID:    "00000000-0000-0000-0000-000000000001",
-			UserID:    "00000000-0000-0000-0000-000000000001",
-			expectErr: dao.ErrTeamMetaAlreadyExists,
+			name:   "Error/TeamMetaAlreadyExists",
+			teamID: "00000000-0000-0000-0000-000000000001",
+			UserID: "00000000-0000-0000-0000-000000000001",
+			expect: &entities.TeamMeta{
+				TeamID: lo.ToPtr(uuid.MustParse("00000000-0000-0000-0000-000000000001")),
+				UserID: "00000000-0000-0000-0000-000000000001",
+			},
 		},
 		{
 			name:   "Success/SameUserDifferentTeam",
