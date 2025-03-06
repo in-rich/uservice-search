@@ -2,12 +2,10 @@ package dao
 
 import (
 	"context"
-	"errors"
 	"github.com/google/uuid"
 	"github.com/in-rich/uservice-search/pkg/entities"
 	"github.com/samber/lo"
 	"github.com/uptrace/bun"
-	"github.com/uptrace/bun/driver/pgdriver"
 )
 
 type CreateTeamMetaRepository interface {
@@ -24,12 +22,12 @@ func (r *createTeamMetaRepositoryImpl) CreateTeamMeta(ctx context.Context, teamI
 		UserID: userID,
 	}
 
-	if _, err := r.db.NewInsert().Model(teamMeta).Returning("*").Exec(ctx); err != nil {
-		var pgErr pgdriver.Error
-		if errors.As(err, &pgErr) && pgErr.IntegrityViolation() {
-			return nil, ErrTeamMetaAlreadyExists
-		}
-
+	_, err := r.db.NewInsert().
+		Model(teamMeta).
+		On("CONFLICT (team_id, user_id) DO NOTHING").
+		Returning("*").
+		Exec(ctx)
+	if err != nil {
 		return nil, err
 	}
 
