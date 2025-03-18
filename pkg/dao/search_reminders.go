@@ -33,7 +33,7 @@ func (r *searchRemindersRepositoryImpl) SearchReminders(ctx context.Context, aut
 	}
 
 	// Add default orderBy last, so it does not take precedence over the score.
-	query = query.Order("expired_at DESC")
+	query = query.Order("expired_at ASC")
 
 	err := query.Scan(ctx)
 	if err != nil {
